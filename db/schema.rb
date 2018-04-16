@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180413104202) do
+ActiveRecord::Schema.define(version: 20180416063545) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "number"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20180413104202) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "enabled", default: false
-    t.decimal "discount_price", precision: 5, scale: 2
+    t.decimal "discount_price", precision: 65, scale: 2
     t.string "permalink"
   end
 
