@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417060535) do
+ActiveRecord::Schema.define(version: 20180416063545) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "number"
@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(version: 20180417060535) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "email"
     t.string "zipcode"
+    t.string "email"
   end
 
   add_foreign_key "line_items", "carts"
