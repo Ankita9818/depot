@@ -1,0 +1,34 @@
+Migrations
+
+1 - Add following columns to the products
+   enabled(boolean), no default value
+   discount_price(decimal)
+   permalink(string)
+
+Solution -
+  bin/rails generate migration AddDetailsToProducts enabled:boolean 'discount_price:decimal{5,2}' permalink
+
+2 - Now change default value of enabled field to false
+    bin/rails generate migration ChangeDefaultEnabledOfProducts
+
+3 - Add following to user
+    email(string)
+    bin/rails generate migration AddEmailToUsers email
+
+4 - Add following to cart
+   line_items_count(integer), default: 0, not null
+   bin/rails generate migration AddLineItemsCountToCart line_items_count:integer
+
+5 - Make form fields in the product creation form for:
+    enabled(checkbox),
+    discount_price(Input Field),
+    permalink(Input Field)
+
+    check products/_form.html.erb
+
+6 - Make input field in user creation form for -
+    email
+    check users/_form.html.erb
+
+7 - Revise irreversible migration, and make an example of irreversible migration
+    bin/rails generate migration IrreversibleMigrationExample
