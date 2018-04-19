@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates :name, presence: true, uniqueness: true
   validates :email, uniqueness: true, allow_blank: true, format: {
     with: EMAIL_REGEX,
