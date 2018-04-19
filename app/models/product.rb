@@ -35,9 +35,12 @@ class Product < ApplicationRecord
   validates_with DiscountValidator
   # validate :discount_price_cannot_be_greater_than_price_value
 
+  before_destroy :ensure_not_referenced_by_any_line_item
   has_many :line_items
   has_many :orders, through: :line_items
-  before_destroy :ensure_not_referenced_by_any_line_item
+
+  after_initialize :ensure_title_has_a_value
+  before_save :ensure_default_discount_price
 
   private
 
@@ -61,4 +64,12 @@ class Product < ApplicationRecord
   # def self.human_attribute_name(attr, options = {})
   #   HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   # end
+
+  def ensure_title_has_a_value
+    self.title = 'abc' if self.title.blank?
+  end
+
+  def ensure_default_discount_price
+    self.discount_price = self.price unless self.discount_price?
+  end
 end
