@@ -50,7 +50,8 @@ class Product < ApplicationRecord
   has_many :line_items
   has_many :orders, through: :line_items
 
-  before_validation :set_default_title, :set_default_discount_price
+  before_validation :set_default_title, unless: :title?
+  before_validation :set_default_discount_price, unless: :discount_price?
 
   private
 

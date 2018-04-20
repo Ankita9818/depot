@@ -27,8 +27,7 @@ class User < ApplicationRecord
   end
 
   def ensure_not_depot_admin(action)
-    # errors.add(:base, "Can not #{action} the admin") if self.email == 'admin@depot.com'
-    # throw :abort
-    raise Error.new "Can not #{action} the admin" if self.email == 'admin@depot.com'
+    errors.add(:base, "Can not #{action} the admin") if self.email == 'admin@depot.com'
+    throw :abort
   end
 end
