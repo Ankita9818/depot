@@ -22,8 +22,19 @@ class Product < ApplicationRecord
     allow_blank: true,
     message: 'should have minimum 5 to 10 words'
   }
+<<<<<<< HEAD
 
   #using length validator
+  # validates :split_description_to_words, length: {
+  #   minimum: 5,
+  #   maximum: 10,
+  #   message: "must have between 5 to 10 words",
+  #   allow_blank: true
+  # }
+=======
+>>>>>>> method names, constant etc changes committed
+
+  # #using length validator
   # validates :split_description_to_words, length: {
   #   minimum: 5,
   #   maximum: 10,
@@ -39,8 +50,7 @@ class Product < ApplicationRecord
   has_many :line_items
   has_many :orders, through: :line_items
 
-  after_initialize :ensure_title_has_a_value
-  before_save :ensure_default_discount_price
+  before_validation :set_default_title, :set_default_discount_price
 
   private
 
@@ -57,19 +67,11 @@ class Product < ApplicationRecord
     end
   end
 
-  # def split_description_to_words
-  #   description.split(' ')
+  # def set_default_title
+  #   self.title = 'abc' if title.blank?
   # end
 
-  # def self.human_attribute_name(attr, options = {})
-  #   HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  # def set_default_discount_price
+  #   self.discount_price = price unless discount_price?
   # end
-
-  def ensure_title_has_a_value
-    self.title = 'abc' if self.title.blank?
-  end
-
-  def ensure_default_discount_price
-    self.discount_price = self.price unless self.discount_price?
-  end
 end

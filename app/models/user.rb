@@ -10,9 +10,9 @@ class User < ApplicationRecord
 
   has_secure_password
   after_destroy :ensure_a_user_remains
-  after_create :send_welcome_email
-  before_destroy { ensure_user_is_not_admin('delete') }
-  before_update { ensure_user_is_not_admin('update') }
+  after_create_commit :send_welcome_email
+  before_update { ensure_not_depot_admin('update') }
+  before_destroy { ensure_not_depot_admin('delete') }
 
   private
 
@@ -26,7 +26,9 @@ class User < ApplicationRecord
     UserMailer.welcome(self).deliver_later
   end
 
-  def ensure_user_is_not_admin(action)
+  def ensure_not_depot_admin(action)
+    # errors.add(:base, "Can not #{action} the admin") if self.email == 'admin@depot.com'
+    # throw :abort
     raise Error.new "Can not #{action} the admin" if self.email == 'admin@depot.com'
   end
 end
