@@ -14,6 +14,8 @@ class User < ApplicationRecord
   before_update { ensure_not_depot_admin('update') } if :depot_admin?
   before_destroy { ensure_not_depot_admin('delete') } if :depot_admin?
 
+  has_many :orders
+
   private
 
   def ensure_a_user_remains
