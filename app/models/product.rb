@@ -34,12 +34,12 @@ class Product < ApplicationRecord
 
   private
 
-  def ensure_not_referenced_by_any_line_item
-    unless line_items.empty?
-      errors.add(:base, 'Line Items Present')
-      throw :abort
-    end
-  end
+  # def ensure_not_referenced_by_any_line_item
+  #   unless line_items.empty?
+  #     errors.add(:base, 'Line Items Present')
+  #     throw :abort
+  #   end
+  # end
 
   def discount_price_cannot_be_greater_than_price_value
     if discount_price.present? && price.present? && discount_price > price

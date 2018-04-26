@@ -14,7 +14,8 @@ class User < ApplicationRecord
   before_update { ensure_not_depot_admin('update') } if :depot_admin?
   before_destroy { ensure_not_depot_admin('delete') } if :depot_admin?
 
-  has_many :orders
+  has_many :orders, dependent: :restrict_with_error
+  has_many :line_items, through: :orders
 
   private
 
