@@ -10,9 +10,12 @@ class User < ApplicationRecord
 
   has_secure_password
   after_destroy :ensure_a_user_remains
-  after_create_commit :send_welcome_email
+  # after_create_commit :send_welcome_email
   before_update { ensure_not_depot_admin('update') } if :depot_admin?
   before_destroy { ensure_not_depot_admin('delete') } if :depot_admin?
+
+  has_many :orders, dependent: :restrict_with_error
+  has_many :line_items, through: :orders
 
   private
 
