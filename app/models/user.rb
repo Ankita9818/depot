@@ -14,6 +14,9 @@ class User < ApplicationRecord
   before_update { ensure_not_depot_admin('update') } if :depot_admin?
   before_destroy { ensure_not_depot_admin('delete') } if :depot_admin?
 
+  has_many :orders, dependent: :restrict_with_error
+  has_many :line_items, through: :orders
+
   private
 
   def ensure_a_user_remains
@@ -23,7 +26,7 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email
-    UserMailer.welcome(self).deliver_later
+    UserMailer.welcome(self).deliver_now
   end
 
   def ensure_not_depot_admin(action)

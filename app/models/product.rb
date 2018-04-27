@@ -24,21 +24,24 @@ class Product < ApplicationRecord
   validates_with DiscountValidator
   # validate :discount_price_cannot_be_greater_than_price_value
 
-  before_destroy :ensure_not_referenced_by_any_line_item
-  has_many :line_items
+  # before_destroy :ensure_not_referenced_by_any_line_item
+  has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
+  has_many :carts, through: :line_items
 
   before_validation :set_default_title, unless: :title?
   before_validation :set_default_discount_price, unless: :discount_price?
 
+  scope :enabled, -> { where(enabled: true) }
+
   private
 
-  def ensure_not_referenced_by_any_line_item
-    unless line_items.empty?
-      errors.add(:base, 'Line Items Present')
-      throw :abort
-    end
-  end
+  # def ensure_not_referenced_by_any_line_item
+  #   unless line_items.empty?
+  #     errors.add(:base, 'Line Items Present')
+  #     throw :abort
+  #   end
+  # end
 
   def discount_price_cannot_be_greater_than_price_value
     if discount_price.present? && price.present? && discount_price > price

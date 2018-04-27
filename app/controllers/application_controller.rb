@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authorize
   before_action :set_i18n_locale_from_params
+  helper_method :current_user
 
   protected
 
@@ -20,5 +21,9 @@ class ApplicationController < ActionController::Base
         logger.error flash.now[:notice]
       end
     end
+  end
+
+  def current_user
+    @logged_in_user ||= User.find_by_id(session[:user_id])
   end
 end
