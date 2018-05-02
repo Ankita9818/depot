@@ -1,37 +1,32 @@
 class Category < ApplicationRecord
   validates :name, presence: true
-  validates :name, uniqueness: true, unless: :parent_category_id?, if: :name?
   validates :name, uniqueness: {
     allow_blank: true,
-    scope: :parent_category_id,
-    message: 'subcategory name should be unique'
-  }, if: :parent_category_id?
+    scope: :parent_category_id
+  }
+  validate :ensure_single_level_nesting
 
   has_many :sub_categories, class_name: "Category",
-                          foreign_key: "parent_category_id"
+                          foreign_key: :parent_category_id, dependent: :destroy
 
   belongs_to :parent_category, class_name: "Category", optional: true
 
-  has_many :products, dependent: :restrict_with_error
+  has_many :products, dependent: :restrict_with_error, after_add: :increment_products_count, after_remove: :decrement_products_count
   has_many :sub_products, through: :sub_categories, source: :products, dependent: :restrict_with_error
-
-  after_destroy :destroy_subcategories
-  before_validation :ensure_single_level_nesting
 
   private
 
   def ensure_single_level_nesting
-    if parent_category_id? && Category.find(parent_category_id).parent_category_id?
-      errors.add(:parent_category_id, 'is itself a sub category')
-      throw :abort
+    if parent_category_id? && parent_category.parent_category.present?
+      errors.add(:base, 'parent_category is itself a sub category')
     end
   end
 
-  def destroy_subcategories
-    sub_categories.each do |sub_cat|
-      if sub_cat.products.empty?
-        sub_cat.destroy
-      end
-    end
+  def increment_products_count(arg)
+    Category.increment_counter(:products_count, parent_category) if parent_category.present?
+  end
+
+  def decrement_products_count(arg)
+    Category.decrement_counter(:products_count, parent_category) if parent_category.present?
   end
 end
