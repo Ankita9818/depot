@@ -32,6 +32,9 @@ class Product < ApplicationRecord
   before_validation :set_default_title, unless: :title?
   before_validation :set_default_discount_price, unless: :discount_price?
 
+  after_destroy_commit :decrement_parent_category_product_count
+  after_create_commit :increment_parent_category_product_count
+
   scope :enabled, -> { where(enabled: true) }
 
   private
@@ -55,5 +58,13 @@ class Product < ApplicationRecord
 
   def set_default_discount_price
     self.discount_price = price
+  end
+
+  def increment_parent_category_product_count
+    Category.increment_counter(:products_count, category.parent_category) if category.parent_category.present?
+  end
+
+  def decrement_parent_category_product_count
+    Category.decrement_counter(:products_count, category.parent_category) if category.parent_category.present?
   end
 end

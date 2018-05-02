@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.all
+    @categories = Category.includes(:sub_categories)
   end
 
   # GET /categories/1
@@ -70,7 +70,11 @@ class CategoriesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_category
-      @category = Category.find(params[:id])
+      unless @category = Category.find_by_id(params[:id])
+        respond_to do |format|
+          format.html { redirect_to categories_url, notice: "Invalid Category" }
+        end
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
