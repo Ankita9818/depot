@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :parent_category_id %>
-    <%= form.number_field :parent_category_id, id: :category_parent_category_id %>
+    <%= form.select :parent_category_id, options_for_select(Category.all.collect { | category | [ category.name, category.id ] }, @category.parent_category_id), prompt: 'choose category' %>
   </div>
 
   <div class="actions">

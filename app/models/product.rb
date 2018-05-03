@@ -28,12 +28,11 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
-  belongs_to :category, counter_cache: true
+  belongs_to :category
   before_validation :set_default_title, unless: :title?
   before_validation :set_default_discount_price, unless: :discount_price?
 
-  after_destroy_commit :decrement_parent_category_product_count
-  after_create_commit :increment_parent_category_product_count
+  after_commit :evaluate_products_count
 
   scope :enabled, -> { where(enabled: true) }
 
@@ -60,11 +59,8 @@ class Product < ApplicationRecord
     self.discount_price = price
   end
 
-  def increment_parent_category_product_count
-    Category.increment_counter(:products_count, category.parent_category) if category.parent_category.present?
-  end
-
-  def decrement_parent_category_product_count
-    Category.decrement_counter(:products_count, category.parent_category) if category.parent_category.present?
+  def evaluate_products_count
+    Category.find(category_id_previous_change.first).recompute_products_count if previous_changes.key?(:category_id) && category_id_previous_change.first.present?
+    category.recompute_products_count
   end
 end
