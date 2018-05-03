@@ -14,7 +14,7 @@ class Category < ApplicationRecord
   has_many :products, dependent: :restrict_with_error
   has_many :sub_products, through: :sub_categories, source: :products, dependent: :restrict_with_error
 
-  after_update_commit :ensure_single_level_nesting, :evaluate_products_count
+  after_update_commit :evaluate_products_count
 
   def recompute_products_count
     self.products_count = count_products
