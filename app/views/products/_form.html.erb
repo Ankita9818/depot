@@ -48,6 +48,11 @@
     <%= form.text_field :permalink, id: :product_permalink %>
   </div>
 
+  <div class="field">
+    <%= form.label :category_id %>
+    <%= form.select :category_id, options_for_select(Category.all.collect { | category | [category.name, category.id] }, @product.category_id), id: :category_id, prompt: 'choose category' %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
