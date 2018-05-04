@@ -60,7 +60,9 @@ class Product < ApplicationRecord
   end
 
   def evaluate_products_count
-    Category.find(category_id_previous_change.first).recompute_products_count if previous_changes.key?(:category_id) && category_id_previous_change.first.present?
-    category.recompute_products_count
+    if previous_changes.key?(:category_id)
+      Category.find(category_id_previous_change.first).recompute_products_count if category_id_previous_change.first.present?
+      category.recompute_products_count
+    end
   end
 end

@@ -17,16 +17,17 @@ class Category < ApplicationRecord
   after_update_commit :evaluate_products_count
 
   def recompute_products_count
-    self.products_count = count_products
-    save
+    set_product_count
     parent_category.recompute_products_count if parent_category.present?
   end
 
   private
 
   def evaluate_products_count
-    Category.find(parent_category_id_previous_change.first).recompute_products_count if previous_changes.key?(:parent_category_id) && parent_category_id_previous_change.first.present?
-    parent_category.recompute_products_count if parent_category.present?
+    if previous_changes.key?(:parent_category_id)
+      Category.find(parent_category_id_previous_change.first).recompute_products_count if parent_category_id_previous_change.first.present?
+      parent_category.recompute_products_count if parent_category.present?
+    end
   end
 
   def ensure_single_level_nesting
@@ -35,7 +36,7 @@ class Category < ApplicationRecord
     end
   end
 
-  def count_products
-    products.count + sub_products.count
+  def set_product_count
+    update_columns(products_count: products.count + sub_products.count)
   end
 end
