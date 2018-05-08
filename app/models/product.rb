@@ -37,7 +37,7 @@ class Product < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
-  accepts_nested_attributes_for :images, allow_destroy: true, reject_if: proc { |record| record['url'].blank? }
+  accepts_nested_attributes_for :images, reject_if: proc { |record| record['url'].blank? }
 
   private
 
