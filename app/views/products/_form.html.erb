@@ -1,4 +1,4 @@
-<%= form_with(model: product, local: true) do |form| %>
+<%= form_for(product, locals: true ) do |form| %>
   <% if product.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
@@ -27,6 +27,13 @@
     <%= form.text_field :image_url, id: :product_image_url %>
   </div>
 
+  <%= form.fields_for :images do |image_form| %>
+    <div class="field">
+      <%= image_form.label :url, 'Picture' %>
+      <%= image_form.file_field :url , multiple: true%>
+    </div>
+  <% end %>
+
   <div class="field">
     <%= form.label :price %>
     <%= form.text_field :price, id: :product_price %>
@@ -50,7 +57,7 @@
 
   <div class="field">
     <%= form.label :category_id %>
-    <%= form.select :category_id, options_for_select(Category.all.collect { | category | [category.name, category.id] }, @product.category_id), id: :category_id, prompt: 'choose category' %>
+    <%= form.select :category_id, options_for_select(Category.all.collect { | category | [category.name, category.id] }, @product.category_id), id: :category_id, prompt: 'Select one' %>
   </div>
 
   <div class="actions">

@@ -38,11 +38,29 @@
     <%= f.password_field :password_confirmation, size: 40 %>
   </div>
 
+  <%= f.fields_for :address do |address_form| %>
+    <div class="field">
+      <%= address_form.label :state %>
+      <%= address_form.text_field :state %>
+    </div>
+    <div class="field">
+      <%= address_form.label :city %>
+      <%= address_form.text_field :city %>
+    </div>
+    <div class="field">
+      <%= address_form.label :country %>
+      <%= address_form.text_field :country %>
+    </div>
+    <div class="field">
+      <%= address_form.label :pincode %>
+      <%= address_form.text_field :pincode %>
+    </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>
 
   </fieldset>
 <% end %>
-
 </div>

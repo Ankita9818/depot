@@ -28,6 +28,7 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
+  has_many :images, dependent: :destroy
   belongs_to :category
   before_validation :set_default_title, unless: :title?
   before_validation :set_default_discount_price, unless: :discount_price?
@@ -35,6 +36,8 @@ class Product < ApplicationRecord
   after_commit :evaluate_products_count
 
   scope :enabled, -> { where(enabled: true) }
+
+  accepts_nested_attributes_for :images, allow_destroy: true, reject_if: proc { |record| record['url'].blank? }
 
   private
 
