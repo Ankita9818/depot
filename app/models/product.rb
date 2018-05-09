@@ -37,7 +37,9 @@ class Product < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
-  accepts_nested_attributes_for :images, reject_if: proc { |record| record['url'].blank? }
+  accepts_nested_attributes_for :images
+
+  validate :ensure_associated_image_count
 
   private
 
@@ -63,9 +65,11 @@ class Product < ApplicationRecord
   end
 
   def evaluate_products_count
-    if previous_changes.key?(:category_id)
-      Category.find(category_id_previous_change.first).recompute_products_count if category_id_previous_change.first.present?
-      category.recompute_products_count
-    end
+    Category.find(category_id_previous_change.first).recompute_products_count if previous_changes.key?(:category_id) && category_id_previous_change.first.present?
+    category.recompute_products_count
+  end
+
+  def ensure_associated_image_count
+    errors.add(:base, "OOPS!! Maximum #{ MAX_ALLOWED_IMAGES_FOR_A_PRODUCT } images can be associated") if images.length > MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
   end
 end

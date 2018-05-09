@@ -1,6 +1,5 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-  before_action :delete_uploaded_images, only: [:destroy]
 
   # GET /products
   # GET /products.json
@@ -20,23 +19,24 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
-    @product.images.build
+    build_images_for_product
   end
 
   # GET /products/1/edit
   def edit
+    build_images_for_product
   end
 
   # POST /products
   # POST /products.json
   def create
-    @product = Product.new(product_params)
+    @product = Product.new(product_create_params)
     respond_to do |format|
       if @product.save
-        upload if params[:product][:images_attributes].present?
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
+        build_images_for_product
         format.html { render :new }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -47,14 +47,14 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1.json
   def update
     respond_to do |format|
-      update_uploaded_images
-      if @product.update(product_params)
+      if @product.update(product_edit_params)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
         @products = Product.all
         ActionCable.server.broadcast 'products',
         html: render_to_string('store/index', layout: false)
       else
+        build_images_for_product
         format.html { render :edit }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -87,34 +87,6 @@ class ProductsController < ApplicationController
     end
   end
 
-
-  def upload
-    ["0", "1", "2"] .each do |i|
-      uploaded_io = params[:product][:images_attributes][i]
-      uploaded_io.each do |key, value|
-        value.each do |file|
-          path_to_file = Rails.root.join('public', 'uploads', file.instance_variable_get("@original_filename"))
-          File.open(path_to_file, 'wb') do |uploaded_file|
-            @product.images << Image.new(url: path_to_file)
-            uploaded_file.write(file.read)
-          end if max_allowed_images?
-        end if value.respond_to? :each
-      end if uploaded_io.respond_to? :each
-    end
-  end
-
-  def delete_uploaded_images
-    @product.images.each do |image|
-      File.delete(image.url) if File.exist?(image.url)
-    end
-  end
-
-  def update_uploaded_images
-    delete_uploaded_images
-    @product.images.clear
-    upload
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
@@ -122,11 +94,16 @@ class ProductsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink, :category_id, images_attributes: [:url])
+    def product_edit_params
+      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink, :category_id, images_attributes: [:id, :uploaded_image])
     end
 
-    def max_allowed_images?
-      @product.images.size < MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def product_create_params
+      params.require(:product).permit(:title, :description, :image_url, :price, :enabled, :discount_price, :permalink, :category_id, images_attributes: [:uploaded_image])
+    end
+
+    def build_images_for_product
+      (MAX_ALLOWED_IMAGES_FOR_A_PRODUCT + 1 - @product.images.length).times { @product.images.build }
     end
 end

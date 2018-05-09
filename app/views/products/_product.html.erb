@@ -1,7 +1,7 @@
 <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
   <% if product.images.present? %>
     <td>
-      <%= image_tag(product.images.first.url.match(REGEX_FOR_PRODUCT_IMAGE)[0], class: 'list_image') %>
+      <%= image_tag(product.images.first.get_relative_image_path, class: 'list_image') %>
     </td>
   <% else %>
     <td>
