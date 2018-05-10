@@ -20,6 +20,7 @@ class Image < ApplicationRecord
   def upload_product_image
     dir = directory_path
     create_product_directory(dir)
+    delete_image(filepath_previous_change.first) if filepath_previous_change.first.present?
     update_columns(filepath: dir + "/" + filename)
     File.open(filepath, 'wb') do |uploaded_file|
       uploaded_file.write(@uploaded_image.read)
@@ -28,8 +29,12 @@ class Image < ApplicationRecord
 
   def delete_uploaded_image
     dir = directory_path
-    File.delete(filepath) if File.exist?(filepath)
+    delete_image(filepath)
     remove_product_directory(dir)
+  end
+
+  def delete_image(file)
+    File.delete(file) if File.exist?(file)
   end
 
   def directory_path
@@ -41,6 +46,6 @@ class Image < ApplicationRecord
   end
 
   def remove_product_directory(dir)
-    Dir.rmdir(dir) unless Dir.exists?(dir) && Dir.entries(dir).length > 2
+    Dir.rmdir(dir) if Dir.exists?(dir) && Dir.entries(dir).length <= 2
   end
 end
