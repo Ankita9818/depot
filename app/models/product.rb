@@ -28,6 +28,7 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
+  has_many :images, dependent: :destroy
   belongs_to :category
   before_validation :set_default_title, unless: :title?
   before_validation :set_default_discount_price, unless: :discount_price?
@@ -35,6 +36,10 @@ class Product < ApplicationRecord
   after_commit :evaluate_products_count
 
   scope :enabled, -> { where(enabled: true) }
+
+  accepts_nested_attributes_for :images
+
+  validate :associated_image_count
 
   private
 
@@ -60,9 +65,11 @@ class Product < ApplicationRecord
   end
 
   def evaluate_products_count
-    if previous_changes.key?(:category_id)
-      Category.find(category_id_previous_change.first).recompute_products_count if category_id_previous_change.first.present?
-      category.recompute_products_count
-    end
+    Category.find(category_id_previous_change.first).recompute_products_count if previous_changes.key?(:category_id) && category_id_previous_change.first.present?
+    category.recompute_products_count
+  end
+
+  def associated_image_count
+    errors.add(:base, "Maximum #{ MAX_ALLOWED_IMAGES_FOR_A_PRODUCT } images can be associated") if images.length > MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
   end
 end

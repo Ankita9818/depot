@@ -16,6 +16,18 @@
 </p>
 
 <p>
+  <% if @product.images.present? %>
+    <div data-id="slideshow">
+      <% @product.images.each do |image| %>
+        <div class="slider_image"><%= image_tag(image.relative_filepath) %></div>
+      <% end %>
+    </div>
+  <% else %>
+    <%= image_tag(@product.image_url, class: 'list_image') %>
+  <% end %>
+</p>
+
+<p>
   <strong>Price:</strong>
   <%= @product.price %>
 </p>
