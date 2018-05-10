@@ -39,7 +39,7 @@ class Product < ApplicationRecord
 
   accepts_nested_attributes_for :images
 
-  validate :ensure_associated_image_count
+  validate :associated_image_count
 
   private
 
@@ -69,7 +69,7 @@ class Product < ApplicationRecord
     category.recompute_products_count
   end
 
-  def ensure_associated_image_count
-    errors.add(:base, "OOPS!! Maximum #{ MAX_ALLOWED_IMAGES_FOR_A_PRODUCT } images can be associated") if images.length > MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
+  def associated_image_count
+    errors.add(:base, "Maximum #{ MAX_ALLOWED_IMAGES_FOR_A_PRODUCT } images can be associated") if images.length > MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
   end
 end

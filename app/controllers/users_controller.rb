@@ -21,12 +21,13 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @user.build_address unless @user.address.present?
   end
 
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    @user = User.new(user_create_params)
 
     respond_to do |format|
       if @user.save
@@ -43,7 +44,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update(user_edit_params)
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -80,7 +81,11 @@ class UsersController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
+    def user_create_params
       params.require(:user).permit(:name, :password, :password_confirmation, :email, address_attributes: [:state, :city, :country, :pincode])
+    end
+
+    def user_edit_params
+      params.require(:user).permit(:name, :password, :password_confirmation, :email, address_attributes: [:id, :state, :city, :country, :pincode])
     end
 end
