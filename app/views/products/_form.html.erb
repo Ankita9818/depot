@@ -30,7 +30,7 @@
   <%= form.fields_for :images do |image_form| %>
     <div class="field">
       <%= image_form.label :uploaded_image, 'Picture' %>
-      <%= image_tag(image_form.object.get_relative_image_path, class: "thumbnail_img") if image_form.object.persisted?%>
+      <%= image_tag(image_form.object.relative_filepath, class: "thumbnail_img") if image_form.object.persisted?%>
       <%= image_form.file_field :uploaded_image %>
     </div>
   <% end %>
