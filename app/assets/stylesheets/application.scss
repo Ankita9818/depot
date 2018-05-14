@@ -13,8 +13,10 @@
  *= require_tree .
  *= require_self
  */
-body, body > p, body > ol, body > ul, body > td {margin: 8px !important}
-
+body > p, body > ol, body > ul, body > td {margin: 8px !important}
+body {
+  margin: 0px;
+}
 .text-center {
   text-align: center;
 }
@@ -176,4 +178,15 @@ body, body > p, body > ol, body > ul, body > td {margin: 8px !important}
   position: relative;
   top: 12px;
   width: 40px;
+}
+
+.footer {
+  background-color: #9c9;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 20px 0;
 }

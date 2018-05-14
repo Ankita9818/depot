@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  layout "myusers"
+  layout "myusers", only: [:line_items, :orders]
 
   # GET /users
   # GET /users.json
@@ -68,6 +68,14 @@ class UsersController < ApplicationController
         format.json { head :no_content }
       end
     end
+  end
+
+  def line_items
+    @user = User.includes(line_items: :product).find_by_id(session[:user_id])
+  end
+
+  def orders
+    @user = User.includes(orders: { line_items: :product } ).find_by_id(session[:user_id])
   end
 
   rescue_from 'User::Error' do |exception|

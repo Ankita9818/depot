@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authorize
+  skip_before_action :authorize, :logout_user_on_inactivity
   def new
   end
 
@@ -7,7 +7,12 @@ class SessionsController < ApplicationController
     user = User.find_by(name: params[:name])
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
-      redirect_to admin_url
+      session[:recent_activity_log] = Time.now
+      if user.role == "admin"
+        redirect_to admin_reports_url
+      else
+        redirect_to admin_url
+      end
     else
       redirect_to login_url, alert: 'Invalid username/password combination.'
     end

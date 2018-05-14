@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Users - Orders</h1>
+
+<table class="text-center">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Pay type</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @amount = 0 %>
+    <% @user.orders.each do |order| %>
+      <tr>
+        <td><%= order.name %></td>
+        <td><%= order.email %></td>
+        <td><%= order.address %></td>
+        <td><%= order.pay_type %></td>
+        <% order.line_items.each do |item|%>
+          <% @amount += item.product.price * item.quantity %>
+        <% end %>
+        <td><%= @amount %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td>
+        Total amount = <%= @amount %>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -47,5 +47,15 @@
         <%= yield %>
       </div>
     </div>
+    <footer class="footer">
+      Your IP address is:
+      <% if Rails.env.production? %>
+        <%= request.remote_ip %>
+      <% else %>
+        <%= Net::HTTP.get(URI.parse(URL_TO_CHECK_IP_ADDRESS)).squish %>
+      <% end %>
+      <p>Total hits : <%= cookies[request.url] %>
+      </p>
+    </footer>
   </body>
 </html>
