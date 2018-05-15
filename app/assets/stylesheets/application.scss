@@ -197,16 +197,4 @@ body {
   left: 50%;
   position: absolute;
   z-index: 1;
-  .pagination {
-    border: none;
-    font-size: 29px;
-
-    &:hover {
-      background-color: green;
-      color: yellow;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  }
-
 }

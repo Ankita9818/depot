@@ -12,7 +12,7 @@ class Admin::ReportsController < Admin::AdminBasicController
       @from_date = params[:from_date].to_date
       @to_date = params[:to_date].to_date
     else
-      @from_date = Time.current.beginning_of_day - 5.days
+      @from_date = Time.current.beginning_of_day - ORDER_TIME_PERIOD
       @to_date = Time.current.beginning_of_day
     end
   end

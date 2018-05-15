@@ -5,10 +5,8 @@ Rails.application.routes.draw do
     match '*url', to: redirect('/404'), via: :all
   end
 
-  # post 'admin/reports' => 'admin/reports#index'
   namespace :admin do
-    # resources :reports, only: [:index]
-    match :reports, via: [:get, :post], action: :index, controller: :reports
+    resources :reports, only: [:index]
     resources :categories do
       member do
         get 'books', action: 'products', constraints: { id: /\d+/ }
@@ -36,7 +34,7 @@ Rails.application.routes.draw do
   # get 'sessions/destroy'
 
   scope('/users') do
-    match 'line_items', to: 'users#line_items', via: [:get, :post]
+    get 'line_items', to: 'users#line_items'
     get 'orders', to: 'users#orders'
   end
 
@@ -44,7 +42,7 @@ Rails.application.routes.draw do
   get 'my-items' => 'users#line_items'
 
   resources :users
-  # resources :books, as: 'products', controller: 'products'
+
   resources :products, path: :books
 
   scope '(:locale)' do

@@ -72,14 +72,12 @@ class UsersController < ApplicationController
   end
 
   def line_items
-    # @line_items = User.includes(line_items: :product).find_by_id(session[:user_id]).line_items
     @user = current_user
     @line_items = current_user.paginate_items(@items_per_page, @page_number)
   end
 
   def orders
-    # @user = User.includes(orders: { line_items: :product } ).find_by_id(session[:user_id])
-    @orders = current_user.orders
+    @orders = current_user.orders.includes(line_items: :product)
   end
 
   rescue_from 'User::Error' do |exception|
