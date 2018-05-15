@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_pagination_elements, only: :line_items
   layout "myusers", only: [:line_items, :orders]
 
   # GET /users
@@ -71,11 +72,14 @@ class UsersController < ApplicationController
   end
 
   def line_items
-    @user = User.includes(line_items: :product).find_by_id(session[:user_id])
+    # @line_items = User.includes(line_items: :product).find_by_id(session[:user_id]).line_items
+    @user = current_user
+    @line_items = current_user.paginate_items(@items_per_page, @page_number)
   end
 
   def orders
-    @user = User.includes(orders: { line_items: :product } ).find_by_id(session[:user_id])
+    # @user = User.includes(orders: { line_items: :product } ).find_by_id(session[:user_id])
+    @orders = current_user.orders
   end
 
   rescue_from 'User::Error' do |exception|
@@ -95,5 +99,10 @@ class UsersController < ApplicationController
 
     def user_edit_params
       params.require(:user).permit(:name, :password, :password_confirmation, :email, address_attributes: [:id, :state, :city, :country, :pincode])
+    end
+
+    def set_pagination_elements
+      @items_per_page = (params[:items_per_page].to_i if params[:items_per_page].present?)|| 5
+      @page_number = (params[:page_number].to_i  if params[:page_number].present?)|| 1
     end
 end

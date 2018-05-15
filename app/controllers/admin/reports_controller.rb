@@ -1,16 +1,17 @@
 class Admin::ReportsController < Admin::AdminBasicController
-  before_action :get_dates
+  before_action :get_dates, only: :index
+
   def index
-    @orders = Order.where( created_at: @from_date..@to_date )
+    @orders = Order.includes(:user).by_date(@from_date, @to_date)
   end
 
   private
-  def reports_params
-    params.permit(report: [:from_date, :to_date])
-  end
 
   def get_dates
-    unless params[:report] && (@from_date = params[:report][:from_date].to_date) && (@to_date = params[:report][:to_date].to_date)
+    if params[:from_date] && params[:from_date]
+      @from_date = params[:from_date].to_date
+      @to_date = params[:to_date].to_date
+    else
       @from_date = Time.current.beginning_of_day - 5.days
       @to_date = Time.current.beginning_of_day
     end

@@ -5,17 +5,21 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Product</th>
       <th>Quantity</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @user.line_items.each do |line_item| %>
+    <% @line_items.each do |line_item| %>
       <tr>
+        <td><%= line_item.id %></td>
         <td><%= line_item.product.title %></td>
         <td><%= line_item.quantity %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%= render 'pagination_filter' %>

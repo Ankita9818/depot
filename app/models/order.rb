@@ -18,4 +18,12 @@ class Order < ApplicationRecord
       line_items << item
     end
   end
+
+  def order_amount
+    @amount = 0
+    line_items.each do |item|
+      @amount += item.total_price
+    end
+    @amount
+  end
 end

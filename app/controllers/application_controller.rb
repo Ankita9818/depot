@@ -31,14 +31,10 @@ class ApplicationController < ActionController::Base
     @logged_in_user ||= User.find_by_id(session[:user_id])
   end
 
-  def admin?
-    current_user.role == 'admin'
-  end
-
   def set_custom_header
-    pre_execution_time = Time.now
+    pre_execution_time = Time.current
     yield
-    post_execution_time = Time.now
+    post_execution_time = Time.current
     response.set_header('x-responded-in', (post_execution_time - pre_execution_time))
   end
 
@@ -52,9 +48,9 @@ class ApplicationController < ActionController::Base
 
   def logout_user_on_inactivity
     if current_user
-      if Time.now - session[:recent_activity_log].to_time > 5.minutes
-        session.clear
-        redirect_to store_index_url, notice: "Logged out due to inactivity"
+      if Time.now - session[:recent_activity_log].to_time > MAX_INACTIVE_PERIOD
+        reset_session
+        redirect_to root_path, notice: "Logged out due to inactivity"
       else
         session[:recent_activity_log] = Time.now
       end
@@ -62,6 +58,6 @@ class ApplicationController < ActionController::Base
   end
 
   def record_not_found
-    render plain: "404 Not Found", status: 404
+    redirect_to root_path, notice: 'Invalid Request'
   end
 end

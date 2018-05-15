@@ -1,21 +1,21 @@
-class Admin::CategoriesController < ApplicationController
-  before_action :set_category, only: [:show_products]
+class Admin::CategoriesController < Admin::AdminBasicController
+  before_action :get_category, only: :products
 
   def index
-    @categories = Category.includes(:products)
+    @categories = Category.includes(:parent_category)
   end
 
-  def show_products
+  def products
     @products = @category.products
     @sub_products = @category.sub_products
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_category
-      unless @category = Category.find_by_id(params[:id])
+    def get_category
+      unless @category = Category.includes(:products, :sub_products).find_by_id(params[:id])
         respond_to do |format|
-          format.html { redirect_to categories_url, notice: "Invalid Category" }
+          format.html { redirect_to admin_categories_path, notice: "Invalid Category" }
         end
       end
     end

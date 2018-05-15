@@ -190,3 +190,23 @@ body {
   margin: 0;
   padding: 20px 0;
 }
+
+.pagination-bar {
+  border-bottom: 1px solid black;
+  bottom: 15vh;
+  left: 50%;
+  position: absolute;
+  z-index: 1;
+  .pagination {
+    border: none;
+    font-size: 29px;
+
+    &:hover {
+      background-color: green;
+      color: yellow;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  }
+
+}

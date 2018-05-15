@@ -1,0 +1,11 @@
+<%= form_tag do %>
+<div class = 'pagination-bar'>
+  <% item_per_page = @user.set_item_per_page(params[:items_per_page])%>
+  <% @user.get_pagination_index(item_per_page).each do |pno| %>
+    <%= button_tag pno, name: 'page_number', value: pno, class: 'pagination' %>
+  <% end %>
+</div>
+<div>
+  <%= select_tag :items_per_page, options_for_select((1..User::MAX_ITEMS_PER_PAGE), params[:items_per_page]), include_blank: 'Select items_per_page' %>
+</div>
+<% end %>

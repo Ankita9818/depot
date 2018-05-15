@@ -14,23 +14,14 @@
   </thead>
 
   <tbody>
-    <% @amount = 0 %>
-    <% @user.orders.each do |order| %>
+    <% @orders.each do |order| %>
       <tr>
         <td><%= order.name %></td>
         <td><%= order.email %></td>
         <td><%= order.address %></td>
         <td><%= order.pay_type %></td>
-        <% order.line_items.each do |item|%>
-          <% @amount += item.product.price * item.quantity %>
-        <% end %>
-        <td><%= @amount %></td>
+        <td><%= order.order_amount %></td>
       </tr>
     <% end %>
-    <tr>
-      <td>
-        Total amount = <%= @amount %>
-      </td>
-    </tr>
   </tbody>
 </table>
