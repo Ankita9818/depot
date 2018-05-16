@@ -1,5 +1,5 @@
 <div class = 'pagination-bar'>
-  <% item_per_page = set_item_per_page(params[:items_per_page])%>
+  <% item_per_page = get_param_as_integer(params[:items_per_page])%>
   <% get_pagination_index(@user, item_per_page).each do |pno| %>
     <%= link_to pno, page_number: pno, items_per_page: item_per_page %>
   <% end %>

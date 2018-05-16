@@ -15,7 +15,7 @@ module UsersHelper
     end
   end
 
-  def set_item_per_page(param_item)
-    param_item.to_i if (param_item.to_i.to_s == param_item)
+  def get_param_as_integer(param_item)
+    param_item.to_i if ((param_item.to_i.to_s == param_item) && param_item != '0')
   end
 end

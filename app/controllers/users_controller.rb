@@ -100,7 +100,7 @@ class UsersController < ApplicationController
     end
 
     def set_pagination_elements
-      @items_per_page = (params[:items_per_page].to_i if params[:items_per_page].present?)|| 5
-      @page_number = (params[:page_number].to_i  if params[:page_number].present?)|| 1
+      @items_per_page = (params[:items_per_page].to_i if helpers.get_param_as_integer(params[:items_per_page]))|| 5
+      @page_number = (params[:page_number].to_i if helpers.get_param_as_integer(params[:page_number]))|| 1
     end
 end
