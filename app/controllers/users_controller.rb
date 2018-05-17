@@ -72,7 +72,6 @@ class UsersController < ApplicationController
   end
 
   def line_items
-    @user = current_user
     @line_items = current_user.paginate_items(@items_per_page, @page_number)
   end
 
@@ -100,7 +99,11 @@ class UsersController < ApplicationController
     end
 
     def set_pagination_elements
-      @items_per_page = (params[:items_per_page].to_i if helpers.get_param_as_integer(params[:items_per_page]))|| 5
-      @page_number = (params[:page_number].to_i if helpers.get_param_as_integer(params[:page_number]))|| 1
+      @items_per_page = get_param_as_integer(params[:items_per_page]) || 5
+      @page_number = get_param_as_integer(params[:page_number]) || 1
+    end
+
+    def get_param_as_integer(param_item)
+      param_item.to_i if ( param_item != '0' && (param_item.to_i.to_s == param_item) )
     end
 end

@@ -19,11 +19,7 @@ class Order < ApplicationRecord
     end
   end
 
-  def order_amount
-    @amount = 0
-    line_items.each do |item|
-      @amount += item.total_price
-    end
-    @amount
+  def total_amount
+    line_items.inject(0) { |amount, item| amount + item.total_price }
   end
 end

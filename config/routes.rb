@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :reports, only: [:index]
-    resources :categories, only: [:index] do
+    resources :reports, only: :index
+    resources :categories, only: :index do
       member do
         get 'books', action: 'products', constraints: { id: /\d+/ }
         get 'books', to: redirect('store#index')

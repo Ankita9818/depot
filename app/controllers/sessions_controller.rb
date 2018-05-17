@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     user = User.find_by(name: params[:name])
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
-      session[:recent_activity_log] = Time.now
+      session[:recent_activity_log] = Time.current
       after_sign_in_path(user)
     else
       redirect_to login_path, alert: 'Invalid username/password combination.'
@@ -19,9 +19,7 @@ class SessionsController < ApplicationController
     redirect_to store_index_path, notice: 'Logged out'
   end
 
-  private
-
-  def after_sign_in_path(user)
+  private def after_sign_in_path(user)
     if user.admin?
       redirect_to admin_reports_path
     else
