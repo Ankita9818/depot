@@ -5,9 +5,7 @@ class Admin::ReportsController < Admin::AdminBasicController
     @orders = Order.includes(:user).by_date(@from_date, @to_date)
   end
 
-  private
-
-  def get_dates
+  private def get_dates
     if params[:from_date] && params[:from_date]
       @from_date = params[:from_date].to_date
       @to_date = params[:to_date].to_date
