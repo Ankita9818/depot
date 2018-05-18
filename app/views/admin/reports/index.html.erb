@@ -1,0 +1,30 @@
+<h1>Reports</h1>
+<p id="notice"><%= notice %></p>
+
+<h3>Orders in last 5 days</h3>
+
+<%= render 'date_filter' %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Email</th>
+      <th>Pay type</th>
+      <th>User name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.name %></td>
+        <td><%= order.address %></td>
+        <td><%= order.email %></td>
+        <td><%= order.pay_type %></td>
+        <td><%= order.user.name if order.user.present? %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

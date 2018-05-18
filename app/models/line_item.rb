@@ -7,7 +7,9 @@ class LineItem < ApplicationRecord
     scope: :cart_id,
     message: 'can be added only once in a cart' }, if: :cart_id?
 
+  delegate :price, :title, to: :product, allow_nil: true
+
   def total_price
-    product.price * quantity
+    price * quantity
   end
 end

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  layout "myusers"
+  before_action :set_pagination_elements, only: :line_items
+  layout "myusers", only: [:line_items, :orders]
 
   # GET /users
   # GET /users.json
@@ -70,6 +71,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def line_items
+    @line_items = current_user.paginate_items(@items_per_page, @page_number)
+  end
+
+  def orders
+    @orders = current_user.orders.includes(line_items: :product)
+  end
+
   rescue_from 'User::Error' do |exception|
     redirect_to users_url, notice: exception.message
   end
@@ -87,5 +96,14 @@ class UsersController < ApplicationController
 
     def user_edit_params
       params.require(:user).permit(:name, :password, :password_confirmation, :email, address_attributes: [:id, :state, :city, :country, :pincode])
+    end
+
+    def set_pagination_elements
+      @items_per_page = get_param_as_integer(params[:items_per_page]) || 5
+      @page_number = get_param_as_integer(params[:page_number]) || 1
+    end
+
+    def get_param_as_integer(param_item)
+      param_item.to_i if ( param_item != '0' && (param_item.to_i.to_s == param_item) )
     end
 end

@@ -1,0 +1,15 @@
+<%= form_tag(admin_reports_path, method: :get) do %>
+  <div class="field">
+    <%= label_tag :from_date %>
+    <%= date_field_tag :from_date, params[:from_date] %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :to_date %>
+    <%= date_field_tag :to_date, params[:to_date] %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag 'Filter'%>
+  </div>
+<% end %>

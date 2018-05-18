@@ -1,0 +1,5 @@
+<div class = 'pagination-bar'>
+  <% 1.upto(max_page_number(@items_per_page)) do |pno| %>
+    <%= link_to pno, page_number: pno, items_per_page: @items_per_page %>
+  <% end %>
+</div>

@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Category - Products</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% [@products, @sub_products].each do |products| %>
+      <% products.each do |product| %>
+        <tr>
+          <td><%= product.title %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

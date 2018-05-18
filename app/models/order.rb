@@ -18,4 +18,8 @@ class Order < ApplicationRecord
       line_items << item
     end
   end
+
+  def total_amount
+    line_items.inject(0) { |amount, item| amount + item.total_price }
+  end
 end
