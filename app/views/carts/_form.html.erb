@@ -1,14 +1,6 @@
 <%= form_with(model: cart, local: true) do |form| %>
   <% if cart.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(cart.errors.count, "error") %> prohibited this cart from being saved:</h2>
-
-      <ul>
-      <% cart.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+    <%= render partial: 'shared/form_errors', locals: {model_object: cart}%>
   <% end %>
 
   <div class="actions">

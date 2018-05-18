@@ -5,7 +5,7 @@ class LineItem < ApplicationRecord
 
   validates :product_id, uniqueness: {
     scope: :cart_id,
-    message: 'can be added only once in a cart' }, if: :cart_id?
+    message: I18n.t('.invalid') }, if: :cart_id?
 
   delegate :price, :title, to: :product, allow_nil: true
 

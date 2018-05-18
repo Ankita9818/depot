@@ -12,20 +12,26 @@ class ApplicationController < ActionController::Base
 
     def authorize
       unless User.find_by(id: session[:user_id])
-        redirect_to login_url, notice: 'Please login'
+        redirect_to login_url, notice: t('login_required')
       end
     end
-
-    def set_i18n_locale_from_params
-      if params[:locale]
-        if I18n.available_locales.map(&:to_s).include?(params[:locale])
-          I18n.locale = params[:locale]
-        else
-          flash.now[:notice] = "#{params[:locale]} translation not available"
-          logger.error flash.now[:notice]
+   def set_i18n_locale_from_params
+      if current_user
+        if I18n.available_locales.map(&:to_s).include?(current_user.language)
+          I18n.locale = current_user.language
+        end
+      else
+        if params[:locale]
+          if I18n.available_locales.map(&:to_s).include?(params[:locale])
+            I18n.locale = params[:locale]
+          else
+            flash.now[:notice] = "#{params[:locale]} translation not available"
+            logger.error flash.now[:notice]
+          end
         end
       end
     end
+
 
     def current_user
       @logged_in_user ||= User.find_by_id(session[:user_id])
@@ -50,7 +56,8 @@ class ApplicationController < ActionController::Base
       if current_user
         if session[:recent_activity_log].to_time < MAX_INACTIVE_PERIOD.ago
           reset_session
-          redirect_to root_path, notice: "Logged out due to inactivity"
+          I18n.locale = I18n.default_locale
+          redirect_to root_path, notice: t('inactive_logout')
         else
           session[:recent_activity_log] = Time.current
         end
@@ -58,6 +65,6 @@ class ApplicationController < ActionController::Base
     end
 
     def record_not_found
-      redirect_to root_path, notice: 'Invalid Request'
+      redirect_to root_path, notice: t('.invalid')
     end
 end

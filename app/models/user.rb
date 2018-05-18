@@ -6,7 +6,7 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :email, uniqueness: true, allow_blank: true, format: {
     with: EMAIL_REGEX,
-    message: 'has invalid format',
+    message: I18n.t('.invalid')
   }
 
   has_secure_password
@@ -33,7 +33,7 @@ class User < ApplicationRecord
 
     def ensure_a_user_remains
       if User.count.zero?
-        raise Error.new "Can't delete last user"
+        raise Error.new I18n.t(generate_msg_scope('unauthorized'))
       end
     end
 
@@ -42,7 +42,7 @@ class User < ApplicationRecord
     end
 
     def ensure_not_depot_admin
-      errors.add(:base, "Unauthorised action")
+      errors.add(:base, I18n.t(generate_msg_scope('unauthorized')))
       throw :abort
     end
 
