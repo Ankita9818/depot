@@ -1,4 +1,5 @@
 hi:
+  invalid: अमान्य अनुरोध
   login_required: लॉगिन आवश्यक
   inactive_logout: निष्क्रियता के कारण लॉग आउट हो गया
   store:

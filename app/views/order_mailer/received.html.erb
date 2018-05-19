@@ -42,6 +42,7 @@
             <% else %>
               <%= image_tag(Rails.root.join('app/assets/images', line_item.product.image_url), width: '90px') %>
             <% end %>
+            <%# image_tag attachments[line_item.product.image_url].url, width: '90px' %>
           </td>
         </tr>
       <% end %>

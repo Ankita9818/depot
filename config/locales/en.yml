@@ -30,6 +30,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  invalid: Invalid Request
   login_required: Please Login
   inactive_logout: Logged out due to inactivity
   layouts:

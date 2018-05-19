@@ -6,6 +6,7 @@ class OrderMailer < ApplicationMailer
     @line_items = order.line_items.includes(product: :images)
 
     @line_items.each do |li|
+      attachments.inline[li.product.image_url] = File.read(Rails.root.join('app/assets/images', li.product.image_url))
       li.product.images.each do |img|
         attachments[img.filename] = File.read(img.filepath)
       end

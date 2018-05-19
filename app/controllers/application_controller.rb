@@ -15,7 +15,8 @@ class ApplicationController < ActionController::Base
         redirect_to login_url, notice: t('login_required')
       end
     end
-   def set_i18n_locale_from_params
+
+    def set_i18n_locale_from_params
       if current_user
         if I18n.available_locales.map(&:to_s).include?(current_user.language)
           I18n.locale = current_user.language
@@ -65,6 +66,6 @@ class ApplicationController < ActionController::Base
     end
 
     def record_not_found
-      redirect_to root_path, notice: t('.invalid')
+      redirect_to root_path, notice: t('invalid')
     end
 end
