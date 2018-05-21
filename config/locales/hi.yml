@@ -1,4 +1,5 @@
 hi:
+  unauthorized_destroy: 'अंतिम उपयोगकर्ता को हटा नहीं सकता है'
   invalid: अमान्य अनुरोध
   login_required: लॉगिन आवश्यक
   inactive_logout: निष्क्रियता के कारण लॉग आउट हो गया
@@ -32,7 +33,7 @@ hi:
       image: 'छवि'
       end_msg: 'आपके ऑर्डर भेजने पर हम आपको एक अलग ई-मेल भेजेंगे।'
   user_mailer:
-    consolidate_mail:
+    orders_summary:
       subject: समेकित ईमेल
       greeting: 'प्रिय %{user_name}, Tद प्रोगैमैटिक स्टोर से आपके हालिया क्रम के लिए धन्यवाद |'
       name: 'नाम - '
@@ -143,13 +144,7 @@ hi:
       less_than_or_equal_to: "%{count} से कम या बराबर होना आवश्यक है"
       odd: "विसम होना चाहिए"
       even: "सम होना चाहिए"
-      invalid_url: 'जीआईएफ, जेपीजी या पीएनजी छवि का यूआरएल होना चाहिए।'
-      invalid_discount: "मूल्य से अधिक नहीं हो सकता है"
-      invalid_images: 'अधिकतम %{max_images} छवियों को जोड़ा जा सकता है'
       taken: 'का उपयोग नहीं किया जा सकता। यह पहले से ही लिया गया है'
-      ensure_single_level_nesting_error_msg: 'मूल श्रेणी स्वयं ही एक उप श्रेणी है'
-      ensure_not_depot_admin_unauthorized: 'अनधिकृत कार्रवाई'
-      ensure_a_user_remains_unauthorized: 'अंतिम उपयोगकर्ता को हटा नहीं सकता है'
 
   activerecord:
     models:
@@ -199,28 +194,36 @@ hi:
         product:
           attributes:
             permalink:
-              invalid: 'रिक्त स्थान या विशेष अक्षरों का अलावा हायफ़न द्वारा जुड़े तीन शब्दों की आवश्यकता हैं'
+              has_invalid_format: 'रिक्त स्थान या विशेष अक्षरों का अलावा हायफ़न द्वारा जुड़े तीन शब्दों की आवश्यकता हैं'
             category:
               required: 'उपस्थिति अनिवार्य है'
             description:
-              invalid: 'कम से कम 5 से 10 शब्द होना चाहिए'
+              has_invalid_format: 'कम से कम 5 से 10 शब्द होना चाहिए'
+            discount_price:
+              has_invalid_value: मूल्य से अधिक नहीं हो सकता है
+            base:
+              has_invalid_image_count: 'अधिकतम 3 छवियों को जोड़ा जा सकता है'
+            image_url:
+              has_invalid_format: 'जीआईएफ, जेपीजी या पीएनजी छवि का यूआरएल होना चाहिए।'
         category:
           attributes:
             base:
+              has_invalid_value: मूल श्रेणी स्वयं ही एक उप श्रेणी है
               restrict_dependent_destroy:
                 has_many: 'संबंधित उत्पादों जुड़े हुए हैं'
         user:
           attributes:
             email:
-              invalid: 'अमान्य प्रारूप है'
+              has_invalid_format: 'अमान्य प्रारूप है'
             base:
               restrict_dependent_destroy:
                 has_many: '%{model} हटाया नहीं जा सकता क्योंकि कुछ ऑर्डर इसके साथ जुड़े हुए हैं।'
+              unauthorized_action: अनधिकृत कार्रवाई
 
         line_item:
           attributes:
             product_id:
-              invalid: 'उत्पाद को कार्ट में केवल एक बार जोड़ा जा सकता है'
+              has_invalid_value: 'उत्पाद को कार्ट में केवल एक बार जोड़ा जा सकता है'
 
   shared:
     form_errors:

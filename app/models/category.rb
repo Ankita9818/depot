@@ -32,7 +32,7 @@ class Category < ApplicationRecord
 
   def ensure_single_level_nesting
     if parent_category_id? && parent_category.parent_category.present? || sub_categories.present? && parent_category.present?
-      errors.add(:base, I18n.t(generate_msg_scope('error_msg')))
+      errors.add(:base, :has_invalid_value)
     end
   end
 

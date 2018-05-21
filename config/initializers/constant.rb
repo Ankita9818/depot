@@ -5,3 +5,4 @@ DEFAULT_ADMIN_EMAIL = 'admin@depot.com'
 MAX_ALLOWED_IMAGES_FOR_A_PRODUCT = 3
 MAX_INACTIVE_PERIOD = 10.hours
 ORDER_TIME_PERIOD = 5.days
+LANGUAGE_LOCALE = { 'English' => 'en', 'Hindi' => 'hi' }

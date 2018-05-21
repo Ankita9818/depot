@@ -30,6 +30,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  unauthorized_destroy: 'Can not delete last user'
   invalid: Invalid Request
   login_required: Please Login
   inactive_logout: Logged out due to inactivity
@@ -71,7 +72,7 @@ en:
       image: 'Image'
       end_msg: 'We will send you a separate e-mail when your order ships.'
   user_mailer:
-    consolidate_mail:
+    orders_summary:
       subject: 'Consolidated email'
       greeting: 'Dear %{user_name}, Thank you for your recent order from The Pragmatic Store.'
       name: 'Name:'
@@ -153,7 +154,7 @@ en:
     update:
       update_flash: 'User %{user_name} was successfully updated.'
     destroy:
-      destroy_flash: 'Product was successfully destroyed.'
+      destroy_flash: 'User was successfully destroyed.'
 
   errors:
     format: "%{attribute} %{message}"
@@ -188,12 +189,6 @@ en:
         one: is the wrong length (should be 1 character)
         other: is the wrong length (should be %{count} characters)
       other_than: must be other than %{count}
-      invalid_url: 'must be a URL for GIF, JPG or PNG image.'
-      invalid_discount: "can't be greater than price value"
-      invalid_images: "Maximum %{max_images} images can be associated"
-      ensure_single_level_nesting_error_msg: 'parent_category is itself a sub category'
-      ensure_not_depot_admin_unauthorized: 'unauthorized action'
-      ensure_a_user_remains_unauthorized: 'Can not delete last user'
 
   activerecord:
     errors:
@@ -201,29 +196,35 @@ en:
         products:
           attributes:
             permalink:
-              invalid: 'requires minimum 3 words seperated by hyphen without space or special characters'
+              has_invalid_format: 'requires minimum 3 words seperated by hyphen without space or special characters'
             category:
               required: 'must be present'
             description:
-              invalid: 'should have minimum 5 to 10 words'
+              has_invalid_format: 'should have minimum 5 to 10 words'
             image_url:
-              invalid_url: 'must be a URL for GIF, JPG or PNG image.'
+              has_invalid_format: 'must be a URL for GIF, JPG or PNG image.'
+            discount_price:
+              has_invalid_value: can't be greater than price value
+            base:
+              has_invalid_image_count: "Maximum 3 images can be associated"
         category:
           attributes:
             base:
+              has_invalid_value: 'parent_category is itself a sub category'
               restrict_dependent_destroy:
                 has_many: 'dependent products associated'
         user:
           attributes:
             email:
-              invalid: 'has invalid format'
+              has_invalid_format: 'has invalid format'
             base:
               restrict_dependent_destroy:
                 has_many: ' %{model} can not be deleted as some orders are associated with it.'
+              unauthorized_action: 'unauthorized action'
         line_item:
           attributes:
             product_id:
-              invalid: 'product can be added only once in a cart'
+              has_invalid_value: 'product can be added only once in a cart'
 
   shared:
     form_errors:

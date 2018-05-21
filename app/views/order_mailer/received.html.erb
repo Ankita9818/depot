@@ -38,11 +38,11 @@
           <td colspan="3"><%= number_to_currency(line_item.total_price) %></td>
           <td colspan="3">
             <% if line_item.product.images.present? %>
-              <%= image_tag(line_item.product.images.first.filepath, width: '90px') %>
-            <% else %>
-              <%= image_tag(Rails.root.join('app/assets/images', line_item.product.image_url), width: '90px') %>
+              <%#= image_tag(line_item.product.images.first.filepath, width: '90px') %>
+            <%# else %>
+              <%#= image_tag(Rails.root.join('app/assets/images', line_item.product.image_url), width: '90px') %>
+              <% image_tag attachments[line_item.product.images.first.filename].url, width: '90px' %>
             <% end %>
-            <%# image_tag attachments[line_item.product.image_url].url, width: '90px' %>
           </td>
         </tr>
       <% end %>

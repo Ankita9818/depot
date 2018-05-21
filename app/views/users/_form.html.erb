@@ -47,12 +47,10 @@
       <%= address_form.text_field :pincode %>
     </div>
   <% end %>
-
   <div class="field">
     <%= f.label :language %>
-    <%= f.text_field :language %>
+    <%= f.select :language, User.languages.keys, prompt: 'Choose language' %>
   </div>
-
   <div class="actions">
     <%= f.submit %>
   </div>

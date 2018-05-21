@@ -8,7 +8,7 @@ class Product < ApplicationRecord
   validates :permalink, uniqueness: true, format: {
     allow_blank: true,
     with: PERMALINK_REGEX,
-    message: I18n.t('.invalid')
+    message: :has_invalid_format
   }
 
   validates :image_url, presence: true, url: { allow_blank: true }
@@ -17,7 +17,7 @@ class Product < ApplicationRecord
   validates :description, format: {
     with: DESCRIPTION_REGEX,
     allow_blank: true,
-    message: I18n.t('.invalid')
+    message: :has_invalid_format
   }
 
   validates :discount_price, numericality: { greater_than_or_equal_to: 0, allow_blank: true }
@@ -52,7 +52,7 @@ class Product < ApplicationRecord
 
   def discount_price_cannot_be_greater_than_price_value
     if discount_price.present? && price.present? && discount_price > price
-      errors.add(:discount_price, I18n.t('.errors.messages.invalid_discount'))
+      errors.add(:discount_price, :has_invalid_value)
     end
   end
 
@@ -70,7 +70,7 @@ class Product < ApplicationRecord
   end
 
   def associated_image_count
-    errors.add(:base, I18n.t('.errors.messages.invalid_images', max_images: MAX_ALLOWED_IMAGES_FOR_A_PRODUCT)) if images.length > MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
+    errors.add(:base, :has_invalid_image_count) if images.length > MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
   end
 end
 

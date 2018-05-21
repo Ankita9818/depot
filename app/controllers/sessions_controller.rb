@@ -8,9 +8,7 @@ class SessionsController < ApplicationController
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
       session[:recent_activity_log] = Time.current
-      if I18n.available_locales.map(&:to_s).include?(user.language)
-        I18n.locale = user.language
-      end
+      user.set_locale_to_preferred_language
       after_sign_in_path(user)
     else
       redirect_to login_path, alert: t('.invalid_user')

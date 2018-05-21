@@ -91,11 +91,11 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_create_params
-      params.require(:user).permit(:name, :password, :password_confirmation, :email, address_attributes: [:state, :city, :country, :pincode])
+      params.require(:user).permit(:name, :password, :password_confirmation, :email, :language, address_attributes: [:state, :city, :country, :pincode])
     end
 
     def user_edit_params
-      params.require(:user).permit(:name, :password, :password_confirmation, :email, address_attributes: [:id, :state, :city, :country, :pincode])
+      params.require(:user).permit(:name, :password, :password_confirmation, :email, :language, address_attributes: [:id, :state, :city, :country, :pincode])
     end
 
     def set_pagination_elements

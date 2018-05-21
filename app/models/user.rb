@@ -2,11 +2,15 @@ class Error < StandardError
 end
 
 class User < ApplicationRecord
+  enum language: {
+    "English" => 0,
+    "Hindi" => 1
+  }
   ADMIN = 'admin'
   validates :name, presence: true, uniqueness: true
   validates :email, uniqueness: true, allow_blank: true, format: {
     with: EMAIL_REGEX,
-    message: I18n.t('.invalid')
+    message: :has_invalid_format
   }
 
   has_secure_password
@@ -29,11 +33,21 @@ class User < ApplicationRecord
     line_items.includes(:product).limit(items_per_page).offset(items_per_page * (page_number - 1))
   end
 
+  def send_orders_info_email
+    UserMailer.orders_summary(self).deliver_now
+  end
+
+  def set_locale_to_preferred_language
+    if I18n.available_locales.map(&:to_s).include?(LANGUAGE_LOCALE[language])
+      I18n.locale = LANGUAGE_LOCALE[language]
+    end
+  end
+
   private
 
     def ensure_a_user_remains
       if User.count.zero?
-        raise Error.new I18n.t(generate_msg_scope('unauthorized'))
+        raise Error.new I18n.t('.unauthorized_destroy')
       end
     end
 
@@ -42,7 +56,7 @@ class User < ApplicationRecord
     end
 
     def ensure_not_depot_admin
-      errors.add(:base, I18n.t(generate_msg_scope('unauthorized')))
+      errors.add(:base, :unauthorized_action)
       throw :abort
     end
 

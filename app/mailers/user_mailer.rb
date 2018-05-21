@@ -7,9 +7,9 @@ class UserMailer < ApplicationMailer
     mail to: user.email, subject: 'Welcome To Our Store'
   end
 
-  def consolidate_mail(user)
+  def orders_summary(user)
     @user = user
-    I18n.with_locale(user.language) do
+    I18n.with_locale(LANGUAGE_LOCALE[user.language.to_sym]) do
       mail to: user.email, subject: t('.subject')
     end
   end

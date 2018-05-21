@@ -18,9 +18,7 @@ class ApplicationController < ActionController::Base
 
     def set_i18n_locale_from_params
       if current_user
-        if I18n.available_locales.map(&:to_s).include?(current_user.language)
-          I18n.locale = current_user.language
-        end
+        current_user.set_locale_to_preferred_language
       else
         if params[:locale]
           if I18n.available_locales.map(&:to_s).include?(params[:locale])
@@ -32,7 +30,6 @@ class ApplicationController < ActionController::Base
         end
       end
     end
-
 
     def current_user
       @logged_in_user ||= User.find_by_id(session[:user_id])
