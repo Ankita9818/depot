@@ -30,6 +30,7 @@ class Product < ApplicationRecord
   has_many :carts, through: :line_items
   has_many :images, dependent: :destroy
   belongs_to :category
+  has_many :ratings, dependent: :destroy
   before_validation :set_default_title, unless: :title?
   before_validation :set_default_discount_price, unless: :discount_price?
 
@@ -40,6 +41,10 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :images
 
   validate :associated_image_count
+
+  def average_rating
+    ratings.average(:score)
+  end
 
   private
 

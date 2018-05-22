@@ -45,6 +45,8 @@ Rails.application.routes.draw do
 
   resources :products, path: :books
 
+  resources :ratings, only: [:create, :update]
+
   scope '(:locale)' do
     resources :orders
     resources :line_items

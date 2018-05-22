@@ -1,0 +1,6 @@
+Average Rating :
+<% if product.ratings.exists? %>
+  <span class="avg-rating"><%= product.average_rating %></span>
+<% else %>
+  <span>Unavailable</span>
+<% end %>
