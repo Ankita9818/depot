@@ -225,6 +225,10 @@ en:
           attributes:
             product_id:
               has_invalid_value: 'product can be added only once in a cart'
+        rating:
+          attributes:
+            user_id:
+              has_invalid_value: 'a user can rate a product only once'
 
   shared:
     form_errors:

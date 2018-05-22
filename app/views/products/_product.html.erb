@@ -12,7 +12,11 @@
   <td class="list_description">
     <dl>
       <dt><%= product.title %></dt>
+      <dt><%= render partial: 'avg_rating', locals: { product: product } %></dt>
       <dd><%= truncate(strip_tags(product.description),length: 80) %></dd>
+    </dl>
+    <dl>
+      <%= render partial: 'product_rating', locals: { product: product } %>
     </dl>
   </td>
 

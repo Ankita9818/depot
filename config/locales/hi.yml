@@ -225,6 +225,11 @@ hi:
             product_id:
               has_invalid_value: 'उत्पाद को कार्ट में केवल एक बार जोड़ा जा सकता है'
 
+        rating:
+          attributes:
+            user_id:
+              has_invalid_value: 'उपयोगकर्ता केवल एक बार उत्पाद को रेट कर सकता है'
+
   shared:
     form_errors:
       template_header:

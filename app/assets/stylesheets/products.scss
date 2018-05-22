@@ -49,3 +49,20 @@
     background:   turquoise;
   }
 }
+
+#notice {
+  &.border-green {
+    border-color: lightgreen;
+  }
+  &.loader{
+    background-image: url('loader.gif');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20px 20px;
+    border-color: yellow;
+    height: 50px;
+    &:empty {
+      display: block;
+    }
+  }
+}
