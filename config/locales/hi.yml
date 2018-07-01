@@ -1,0 +1,232 @@
+hi:
+  unauthorized_destroy: 'अंतिम उपयोगकर्ता को हटा नहीं सकता है'
+  invalid: अमान्य अनुरोध
+  login_required: लॉगिन आवश्यक
+  inactive_logout: निष्क्रियता के कारण लॉग आउट हो गया
+  store:
+    index:
+      title_html: 'आपका व्यावहारिक कैटलॉग'
+      add_html: 'कार्ट में डालें'
+
+  number:
+    currency:
+      format:
+        format: "%u%n"
+        unit: "रु "
+        separator: "."
+        delimiter: ","
+        precision: 2
+
+  order_mailer:
+    received:
+      subject: 'आदेश की पुष्टि'
+      greeting: 'प्रिय %{order_name}, Tद प्रोगैमैटिक स्टोर से आपके हालिया क्रम के लिए धन्यवाद |'
+      name: 'नाम - %{order_name}'
+      email: 'ईमेल - '
+      address: 'पता: '
+      pay_type: 'वेतन का प्रकार - '
+      total_amount: 'कुल रकम - '
+      msg: 'आपने निम्नलिखित मदों का आदेश दिया है '
+      product_name: 'उत्पाद का नाम'
+      quantity: 'मात्रा'
+      total_price: 'कुल कीमत'
+      image: 'छवि'
+      end_msg: 'आपके ऑर्डर भेजने पर हम आपको एक अलग ई-मेल भेजेंगे।'
+  user_mailer:
+    orders_summary:
+      subject: समेकित ईमेल
+      greeting: 'प्रिय %{user_name}, Tद प्रोगैमैटिक स्टोर से आपके हालिया क्रम के लिए धन्यवाद |'
+      name: 'नाम - '
+      email: 'ईमेल - '
+      address: 'पता: '
+      pay_type: 'वेतन का प्रकार - '
+      total_amount: 'कुल रकम - '
+      msg: 'आपने निम्नलिखित मदों का आदेश दिया है '
+      product_name: 'उत्पाद का नाम'
+      quantity: 'मात्रा'
+      total_price: 'कुल कीमत'
+
+  admin:
+    reports:
+      index:
+        unauthorized: 'आपको इस खंड तक पहुंचने का विशेषाधिकार नहीं है'
+    categories:
+      index:
+        unauthorized: 'आपको इस खंड तक पहुंचने का विशेषाधिकार नहीं है'
+    products:
+      invalid: 'अवैध श्रेणी'
+
+  carts:
+    cart:
+      title: 'आपकी कार्ट'
+      empty: 'खाली कार्ट'
+      checkout: 'चेक आउट'
+    create:
+      create_flash: 'कार्ट सफलतापूर्वक बनाया गया था।'
+    update:
+      update_flash: 'कार्ट सफलतापूर्वक अपडेट किया गया था।'
+    invalid: 'अमान्य कार्ट'
+
+  categories:
+    create:
+      create_flash: 'श्रेणी सफलतापूर्वक बनाई गई थी'
+    update:
+      update_flash: 'श्रेणी को सफलतापूर्वक अपडेट किया गया था'
+    destroy:
+      destroy_flash: 'श्रेणी को सफलतापूर्वक नष्ट कर दिया गया था'
+    show:
+      invalid: 'अवैध श्रेणी'
+
+  line_items:
+    create:
+      invalid: 'लाइन आइटम अमान्य है'
+    update:
+      update_flash: 'लाइन आइटम सफलतापूर्वक अपडेट किया गया था।'
+    destroy:
+      destroy_flash: 'लाइन आइटम सफलतापूर्वक नष्ट कर दिया गया था।'
+
+  orders:
+    create:
+      create_flash: 'आपके ऑर्डर के लिए धन्यवाद।'
+    update:
+      update_flash: 'ऑर्डर सफलतापूर्वक अपडेट किया गया था।.'
+    destroy:
+      destroy_flash: 'ऑर्डर सफलतापूर्वक नष्ट कर दिया गया था।.'
+    new:
+      empty_cart: 'आपकी कार्ट खाली है'
+
+  products:
+    create:
+      create_flash: 'उत्पाद सफलतापूर्वक बनाया गया था।'
+    update:
+      update_flash: 'उत्पाद को सफलतापूर्वक अपडेट किया गया था'
+    destroy:
+      destroy_flash: 'उत्पाद को सफलतापूर्वक नष्ट कर दिया गया था'
+    show:
+      invalid: 'अमान्य अनुरोध'
+
+  sessions:
+    create:
+      invalid_user: 'आपके नाम और पासवर्ड मेल नहीं खा रहे'
+    destroy:
+      logged_out: 'बाहर आ गये'
+
+  users:
+    create:
+      create_flash: 'उपयोगकर्ता %{user_name} सफलतापूर्वक बनाया गया था।'
+    update:
+      update_flash: 'उपयोगकर्ता %{user_name} को सफलतापूर्वक अपडेट किया गया था'
+    destroy:
+      destroy_flash: 'उपयोगकर्ता को सफलतापूर्वक नष्ट कर दिया गया था'
+
+  errors:
+    format: "%{attribute} %{message}"
+    templates:
+      one: '1 त्रुटि ने इस% {model_name} को सहेजने से प्रतिबंधित कर दिया'
+      other: '%{count} त्रुटियों ने इस% {model_name} को सहेजने से प्रतिबंधित कर दिया'
+    messages: &errors_messages
+      inclusion: "सूची में शामिल नहीं है"
+      exclusion: "आरक्षित है"
+      invalid: "अवैध है"
+      confirmation: "पुष्टिकरण मेल नहीं खाता"
+      accepted: "स्वीकार किया जाना जरूरी"
+      empty: "रिक्त नहीं रह सकता है"
+      blank: "खाली नहीं रह सकता है"
+      too_long: "अत्यधिक लंबा है (अधिकतम %{count} वर्ण हैं)"
+      too_short: "अत्यधिक छोटा है (न्यूनतम %{count} वर्ण हैं)"
+      wrong_length: "गलत लंबाई है (%{count} वर्ण युक्त होना चाहिए)"
+      not_a_number: "कोई संख्या नहीं है"
+      not_an_integer: "एक पूर्णांक होना चाहिए"
+      greater_than: "%{count} से अधिक होना चाहिए"
+      greater_than_or_equal_to: "%{count} से बड़ा या बराबर होना आवश्यक है"
+      equal_to: "%{count} के लिए बराबर होना चाहिए"
+      less_than: "%{count} से कम होना चाहिए"
+      less_than_or_equal_to: "%{count} से कम या बराबर होना आवश्यक है"
+      odd: "विसम होना चाहिए"
+      even: "सम होना चाहिए"
+      taken: 'का उपयोग नहीं किया जा सकता। यह पहले से ही लिया गया है'
+
+  activerecord:
+    models:
+      user: 'उपयोगकर्ता'
+      product: 'उत्पाद'
+      category: 'श्रेणी'
+      cart: 'कार्ट'
+      line_item: 'लाइन आइटम'
+      order: 'ऑर्डर'
+      address: 'पता'
+      image: 'छवि'
+    attributes:
+      user:
+        name: नाम
+        email: ईमेल
+        password: पारण शब्द
+        password_confirmation: पासवर्ड पुष्टि
+        language: भाषा
+      address:
+        state: राज्य
+        city: शहर
+        country: देश
+        pincode: पिन कोड
+      category:
+        name: नाम
+        parent_category_id: अभिभावक श्रेणी
+      product:
+        title: शीर्षक
+        description: विवरण
+        price: मूल्य
+        permalink: स्थायी लिंक
+        image_url: छवि यूआरएल
+        discount_price: डिस्काउंट कीमत
+        category_id : श्रेणी
+        category: श्रेणी
+        enabled: सक्षम
+      order:
+        name: नाम
+        address: पता
+        email: ईमेल
+        pay_type: भुगतान के प्रकार
+      line_item:
+        product_id: उत्पाद
+        cart_id: कार्ट
+    errors:
+      models:
+        product:
+          attributes:
+            permalink:
+              has_invalid_format: 'रिक्त स्थान या विशेष अक्षरों का अलावा हायफ़न द्वारा जुड़े तीन शब्दों की आवश्यकता हैं'
+            category:
+              required: 'उपस्थिति अनिवार्य है'
+            description:
+              has_invalid_format: 'कम से कम 5 से 10 शब्द होना चाहिए'
+            discount_price:
+              has_invalid_value: मूल्य से अधिक नहीं हो सकता है
+            base:
+              has_invalid_image_count: 'अधिकतम 3 छवियों को जोड़ा जा सकता है'
+            image_url:
+              has_invalid_format: 'जीआईएफ, जेपीजी या पीएनजी छवि का यूआरएल होना चाहिए।'
+        category:
+          attributes:
+            base:
+              has_invalid_value: मूल श्रेणी स्वयं ही एक उप श्रेणी है
+              restrict_dependent_destroy:
+                has_many: 'संबंधित उत्पादों जुड़े हुए हैं'
+        user:
+          attributes:
+            email:
+              has_invalid_format: 'अमान्य प्रारूप है'
+            base:
+              restrict_dependent_destroy:
+                has_many: '%{model} हटाया नहीं जा सकता क्योंकि कुछ ऑर्डर इसके साथ जुड़े हुए हैं।'
+              unauthorized_action: अनधिकृत कार्रवाई
+
+        line_item:
+          attributes:
+            product_id:
+              has_invalid_value: 'उत्पाद को कार्ट में केवल एक बार जोड़ा जा सकता है'
+
+  shared:
+    form_errors:
+      template_header:
+        one: '1 त्रुटि ने इस %{model_name} को सहेजने से प्रतिबंधित कर दिया'
+        other: '%{count} त्रुटियों ने इस %{model_name} को सहेजने से प्रतिबंधित कर दिया'

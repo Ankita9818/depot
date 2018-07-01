@@ -8,15 +8,17 @@ class SessionsController < ApplicationController
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
       session[:recent_activity_log] = Time.current
+      user.set_locale_to_preferred_language
       after_sign_in_path(user)
     else
-      redirect_to login_path, alert: 'Invalid username/password combination.'
+      redirect_to login_path, alert: t('.invalid_user')
     end
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to store_index_path, notice: 'Logged out'
+    I18n.locale = I18n.default_locale
+    redirect_to store_index_path, notice: t('.logged_out')
   end
 
   private def after_sign_in_path(user)

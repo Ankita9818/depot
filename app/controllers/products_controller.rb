@@ -33,7 +33,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_create_params)
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
+        format.html { redirect_to @product, notice: t('.create_flash') }
         format.json { render :show, status: :created, location: @product }
       else
         build_images_for_product
@@ -48,7 +48,7 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_edit_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+        format.html { redirect_to @product, notice: t('.update_flash') }
         format.json { render :show, status: :ok, location: @product }
         @products = Product.all
         ActionCable.server.broadcast 'products',
@@ -66,7 +66,7 @@ class ProductsController < ApplicationController
   def destroy
     if @product.destroy
       respond_to do |format|
-        format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
+        format.html { redirect_to products_url, notice: t('.destroy_flash') }
         format.json { head :no_content }
       end
     else

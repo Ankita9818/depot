@@ -1,0 +1,10 @@
+<div id="error_explanation">
+  <h2>
+    <%= t('.template_header', model_name: model_object.model_name.human, count: model_object.errors.count) %>
+  </h2>
+  <ul>
+    <% model_object.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>

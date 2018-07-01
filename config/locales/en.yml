@@ -30,6 +30,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  unauthorized_destroy: 'Can not delete last user'
+  invalid: Invalid Request
+  login_required: Please Login
+  inactive_logout: Logged out due to inactivity
   layouts:
   application:
     title: "The Pragmatic Bookshelf"
@@ -43,17 +47,187 @@ en:
       title_html: "Your Pragmatic Catalog"
       add_html: "Add to Cart"
 
+  number:
+    currency:
+      format:
+        unit:      "$ "
+        precision: 2
+        separator: "."
+        delimiter: ","
+        format:    "%u%n"
+
+  order_mailer:
+    received:
+      subject: 'Order Confirmation'
+      greeting: 'Dear %{order_name}, Thank you for your recent order from The Pragmatic Store.'
+      name: 'Name: %{order_name}'
+      email: 'Email: '
+      address: 'Address: '
+      pay_type: 'Pay type: '
+      total_amount: 'Total Amount: '
+      msg: 'You ordered the following items: '
+      product_name: 'Product Name'
+      quantity: 'Quantity'
+      total_price: 'Total Price'
+      image: 'Image'
+      end_msg: 'We will send you a separate e-mail when your order ships.'
+  user_mailer:
+    orders_summary:
+      subject: 'Consolidated email'
+      greeting: 'Dear %{user_name}, Thank you for your recent order from The Pragmatic Store.'
+      name: 'Name:'
+      email: 'Email: '
+      address: 'Address: '
+      pay_type: 'Pay type: '
+      total_amount: 'Total Amount: '
+      msg: 'You ordered the following items for this order: '
+      product_name: 'Product Name'
+      quantity: 'Quantity'
+      total_price: 'Total Price'
+
+  admin:
+    admin_basic:
+      index:
+        unauthorized: 'You do not have privilege to access this section'
+    categories:
+      index:
+        unauthorized: 'You do not have privilege to access this section'
+      products:
+        invalid: 'Invalid category'
   carts:
     cart:
       title: "Your Cart"
       empty: "Empty cart"
       checkout: "Checkout"
+    create:
+      create_flash: 'Cart was successfully updated.'
+    update:
+      update_flash: 'Cart was successfully updated.'
+    invalid: 'Invalid cart'
 
-  number:
-    currency:
-      format:
-        unit:      "$"
-        precision: 2
-        separator: "."
-        delimiter: ","
-        format:    "%u%n"
+  categories:
+    create:
+      create_flash: 'Category was successfully created.'
+    update:
+      update_flash: 'Category was successfully updated.'
+    destroy:
+      destroy_flash: 'Category was successfully destroyed.'
+    show:
+      invalid: 'Invalid Category'
+
+  line_items:
+    update:
+      update_flash: 'LineItem was successfully updated.'
+    destroy:
+      destroy_flash: 'LineItem was successfully destroyed.'
+
+  orders:
+    create:
+      create_flash: 'Thank you for your order.'
+    update:
+      update_flash: 'Order was successfully updated.'
+    destroy:
+      destroy_flash: 'Order was successfully destroyed.'
+    new:
+      empty_cart: 'Your Cart is empty'
+
+  products:
+    create:
+      create_flash: 'Product was successfully created.'
+    update:
+      update_flash: 'Product was successfully updated.'
+    destroy:
+      destroy_flash: 'Product was successfully destroyed.'
+    show:
+      invalid: 'Invalid Request'
+
+  sessions:
+    create:
+      invalid_user: 'Invalid username/password combination.'
+    destroy:
+      logged_out: 'Logged out'
+
+
+  users:
+    create:
+      create_flash: 'User %{user_name} was successfully created.'
+    update:
+      update_flash: 'User %{user_name} was successfully updated.'
+    destroy:
+      destroy_flash: 'User was successfully destroyed.'
+
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: must be accepted
+      blank: can't be blank
+      present: must be blank
+      confirmation: doesn't match %{attribute}
+      empty: can't be empty
+      equal_to: must be equal to %{count}
+      even: must be even
+      exclusion: is reserved
+      greater_than: must be greater than %{count}
+      greater_than_or_equal_to: must be greater than or equal to %{count}
+      inclusion: is not included in the list
+      invalid: is invalid
+      less_than: must be less than %{count}
+      less_than_or_equal_to: must be less than or equal to %{count}
+      model_invalid: "Validation failed: %{errors}"
+      not_a_number: is not a number
+      not_an_integer: must be an integer
+      odd: must be odd
+      required: must exist
+      taken: has already been taken
+      too_long:
+        one: is too long (maximum is 1 character)
+        other: is too long (maximum is %{count} characters)
+      too_short:
+        one: is too short (minimum is 1 character)
+        other: is too short (minimum is %{count} characters)
+      wrong_length:
+        one: is the wrong length (should be 1 character)
+        other: is the wrong length (should be %{count} characters)
+      other_than: must be other than %{count}
+
+  activerecord:
+    errors:
+      models:
+        products:
+          attributes:
+            permalink:
+              has_invalid_format: 'requires minimum 3 words seperated by hyphen without space or special characters'
+            category:
+              required: 'must be present'
+            description:
+              has_invalid_format: 'should have minimum 5 to 10 words'
+            image_url:
+              has_invalid_format: 'must be a URL for GIF, JPG or PNG image.'
+            discount_price:
+              has_invalid_value: can't be greater than price value
+            base:
+              has_invalid_image_count: "Maximum 3 images can be associated"
+        category:
+          attributes:
+            base:
+              has_invalid_value: 'parent_category is itself a sub category'
+              restrict_dependent_destroy:
+                has_many: 'dependent products associated'
+        user:
+          attributes:
+            email:
+              has_invalid_format: 'has invalid format'
+            base:
+              restrict_dependent_destroy:
+                has_many: ' %{model} can not be deleted as some orders are associated with it.'
+              unauthorized_action: 'unauthorized action'
+        line_item:
+          attributes:
+            product_id:
+              has_invalid_value: 'product can be added only once in a cart'
+
+  shared:
+    form_errors:
+      template_header:
+        one: '1 error prohibited this %{model_name} from being saved'
+        other: '%{count} errors prohibited this %{model_name} from being saved'
