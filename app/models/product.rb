@@ -8,7 +8,7 @@ class Product < ApplicationRecord
   validates :permalink, uniqueness: true, format: {
     allow_blank: true,
     with: PERMALINK_REGEX,
-    message: 'requires minimum 3 words seperated by hyphen without space or special characters'
+    message: :has_invalid_format
   }
 
   validates :image_url, presence: true, url: { allow_blank: true }
@@ -17,12 +17,12 @@ class Product < ApplicationRecord
   validates :description, format: {
     with: DESCRIPTION_REGEX,
     allow_blank: true,
-    message: 'should have minimum 5 to 10 words'
+    message: :has_invalid_format
   }
 
   validates :discount_price, numericality: { greater_than_or_equal_to: 0, allow_blank: true }
-  validates_with DiscountValidator
-  # validate :discount_price_cannot_be_greater_than_price_value
+  # validates_with DiscountValidator
+  validate :discount_price_cannot_be_greater_than_price_value
 
   # before_destroy :ensure_not_referenced_by_any_line_item
   has_many :line_items, dependent: :restrict_with_error
@@ -52,7 +52,7 @@ class Product < ApplicationRecord
 
   def discount_price_cannot_be_greater_than_price_value
     if discount_price.present? && price.present? && discount_price > price
-      errors.add(:discount_price, "can't be greater than price value")
+      errors.add(:discount_price, :has_invalid_value)
     end
   end
 
@@ -70,6 +70,7 @@ class Product < ApplicationRecord
   end
 
   def associated_image_count
-    errors.add(:base, "Maximum #{ MAX_ALLOWED_IMAGES_FOR_A_PRODUCT } images can be associated") if images.length > MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
+    errors.add(:base, :has_invalid_image_count) if images.length > MAX_ALLOWED_IMAGES_FOR_A_PRODUCT
   end
 end
+

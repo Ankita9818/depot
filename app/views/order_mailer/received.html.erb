@@ -1,5 +1,52 @@
-<h1>Order#received</h1>
-
+<p><%= t('.greeting', order_name: @order.name) %></p>
+<p><%= t('.name', order_name: @order.name) %></p>
 <p>
-  <%= @greeting %>, find me in app/views/order_mailer/received.html.erb
+  <%= t('.email')%>
+  <%= @order.email %>
 </p>
+<p>
+  <%= t('.address') %>
+  <%= @order.address %>
+</p>
+<p>
+  <%= t('.pay_type') %>
+  <%= @order.pay_type %>
+</p>
+<p>
+  <%= t('.total_amount') %>
+  <%= number_to_currency(@order.total_amount) %>
+</p>
+<% if @line_items.present? %>
+  <p>
+    <%= t('.msg') %>
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th colspan="3"><%= t('.product_name') %></th>
+        <th colspan="3"><%= t('.quantity') %></th>
+        <th colspan="3"><%= t('.total_price') %></th>
+        <th colspan="3"><%= t('.image') %></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @line_items.each do |line_item| %>
+        <tr>
+          <td colspan="3"><%= line_item.title %></td>
+          <td colspan="3"><%= line_item.quantity %></td>
+          <td colspan="3"><%= number_to_currency(line_item.total_price) %></td>
+          <td colspan="3">
+            <% if line_item.product.images.present? %>
+              <%#= image_tag(line_item.product.images.first.filepath, width: '90px') %>
+            <%# else %>
+              <%#= image_tag(Rails.root.join('app/assets/images', line_item.product.image_url), width: '90px') %>
+              <% image_tag attachments[line_item.product.images.first.filename].url, width: '90px' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<p><%= t('.end_msg') %></p>

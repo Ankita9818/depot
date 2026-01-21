@@ -1,14 +1,6 @@
 <%= form_for @order do |form| %>
   <% if order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
-
-      <ul>
-      <% order.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+    <%= render partial: 'shared/form_errors', locals: {model_object: order}%>
   <% end %>
 
   <div class="field">

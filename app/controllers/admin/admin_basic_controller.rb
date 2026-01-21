@@ -5,7 +5,7 @@ class Admin::AdminBasicController < ApplicationController
 
     def ensure_admin
       unless current_user.admin?
-        redirect_to store_index_path, notice: 'You do not have privilege to access this section'
+        redirect_to store_index_path, notice: t('.unauthorized')
       end
     end
 end

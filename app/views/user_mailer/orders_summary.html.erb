@@ -1,0 +1,46 @@
+<p><%= t('.greeting', user_name: @user.name) %></p>
+<% @user.orders.includes(line_items: :product).each do |order| %>
+  <hr>
+  <p>
+    <%= t('.name')%>
+    <%= order.name %>
+  </p>
+  <p>
+    <%= t('.email')%>
+    <%= order.email %>
+  </p>
+  <p>
+    <%= t('.address') %>
+    <%= order.address %>
+  </p>
+  <p>
+    <%= t('.pay_type') %>
+    <%= order.pay_type %>
+  </p>
+  <p>
+    <%= t('.total_amount') %>
+    <%= number_to_currency(order.total_amount) %>
+  </p>
+  <% if order.line_items.present? %>
+    <p><%= t('.msg') %></p>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="3"><%= t('.product_name') %></th>
+          <th colspan="3"><%= t('.quantity') %></th>
+          <th colspan="3"><%= t('.total_price') %></th>
+          </tr>
+      </thead>
+
+      <tbody>
+        <% order.line_items.each do |line_item| %>
+          <tr>
+            <td colspan="3"><%= line_item.title %></td>
+            <td colspan="3"><%= line_item.quantity %></td>
+            <td colspan="3"><%= number_to_currency(line_item.total_price) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

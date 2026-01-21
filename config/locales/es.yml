@@ -1,4 +1,5 @@
 es:
+  hello_flash: 'Spanish Hello flash !!'
   layouts:
     application:
       title: "Biblioteca de Pragmatic"
